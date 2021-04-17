@@ -1,5 +1,5 @@
 const express = require('express')
-const path = require('path')
+// const path = require('path')
 const cors = require('cors')
 const app = express()
 const mongoose = require('mongoose')
@@ -39,17 +39,21 @@ app.use(cookieparser(config.cookieSecret))
 app.use('/api/quiz', quizRoutes)
 app.use('/api/auth', auth)
 
-// Production Requirements
-if (process.env.NODE_ENV === 'production') {
-  // Set static folder
-  app.use(express.static('../client/build'))
+app.get('/api/status', async (req, res) => {
+  res.status(200).json({ message: 'i am alive' })
+})
 
-  app.get('*', (req, res) => {
-    res.sendFile(
-      path.resolve(__dirname, '..', 'client', 'build', 'index.html')
-    )
-  })
-}
+// Production Requirements
+// if (process.env.NODE_ENV === 'production') {
+//   // Set static folder
+//   app.use(express.static('../client/build'))
+
+//   app.get('*', (req, res) => {
+//     res.sendFile(
+//       path.resolve(__dirname, '..', 'client', 'build', 'index.html')
+//     )
+//   })
+// }
 
 const PORT = config.port || process.env.PORT
 
